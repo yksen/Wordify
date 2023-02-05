@@ -32,13 +32,13 @@
 
         <Button
             android:id="@+id/playButton"
-            style="@style/Button"
+            style="@style/MenuButton"
             android:layout_height="wrap_content"
             android:text="Play" />
 
         <Button
             android:id="@+id/statsButton"
-            style="@style/Button"
+            style="@style/MenuButton"
             android:layout_height="wrap_content"
             android:text="Stats" />
 
