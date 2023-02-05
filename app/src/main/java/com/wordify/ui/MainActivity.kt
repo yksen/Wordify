@@ -1,4 +1,4 @@
-package com.example.wordify.ui
+package com.wordify.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

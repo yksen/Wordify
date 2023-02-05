@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/menuFragment"
-        android:name="com.example.wordify.ui.fragment.MenuFragment"
+        android:name="com.wordify.ui.fragment.MenuFragment"
         android:label="MenuFragment" >
         <action
             android:id="@+id/action_menuFragment_to_gameFragment"
@@ -18,11 +18,11 @@
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
-        android:name="com.example.wordify.ui.fragment.GameFragment"
+        android:name="com.wordify.ui.fragment.GameFragment"
         android:label="GameFragment" />
     <fragment
         android:id="@+id/statsFragment"
-        android:name="com.example.wordify.ui.fragment.StatsFragment"
+        android:name="com.wordify.ui.fragment.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
 </navigation>

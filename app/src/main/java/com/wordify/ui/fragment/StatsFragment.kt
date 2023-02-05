@@ -1,4 +1,4 @@
-package com.example.wordify.ui.fragment
+package com.wordify.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

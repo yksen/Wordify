@@ -1,4 +1,4 @@
-package com.example.wordify
+package com.wordify
 
 import org.junit.Test
 
