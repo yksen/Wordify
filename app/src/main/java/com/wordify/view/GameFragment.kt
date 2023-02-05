@@ -1,4 +1,4 @@
-package com.wordify.ui.fragment
+package com.wordify.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
