@@ -1,6 +1,7 @@
 package com.wordify.viewmodel
 
 import android.app.Application
+import android.os.CountDownTimer
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,13 @@ import retrofit2.Response
 
 class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = WordRepository()
+
+    private var countDownTimer: CountDownTimer? = null
+    private val roundTime = 2 * 60 * 1000L
+    private val interval = 1000L
+
+    private val _timeRemaining: MutableLiveData<Long> = MutableLiveData(roundTime)
+    val timeRemaining: LiveData<Long> = _timeRemaining
 
     private val _wordsFound: MutableLiveData<List<String>> = MutableLiveData(listOf())
     val wordsFound: LiveData<List<String>> = _wordsFound
@@ -54,4 +62,20 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         _score.value = _score.value?.plus((word.length - 2) * (word.length - 2))
     }
 
+    fun startTimer() {
+        countDownTimer = object : CountDownTimer(roundTime, interval) {
+            override fun onTick(millisUntilFinished: Long) {
+                _timeRemaining.value = millisUntilFinished
+            }
+
+            override fun onFinish() {
+                endGame()
+            }
+
+        }.start()
+    }
+
+    fun endGame() {
+
+    }
 }

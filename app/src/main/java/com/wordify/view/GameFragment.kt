@@ -1,7 +1,6 @@
 package com.wordify.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -11,12 +10,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wordify.R
 import com.example.wordify.databinding.FragmentGameBinding
 import com.wordify.viewmodel.GameViewModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.absoluteValue
 
 class GameFragment : Fragment() {
@@ -53,6 +55,21 @@ class GameFragment : Fragment() {
         viewModel.score.observe(viewLifecycleOwner) {
             binding.scoreText.text = it.toString()
         }
+
+        viewModel.timeRemaining.observe(viewLifecycleOwner) {
+            binding.timeText.text = SimpleDateFormat("m:ss", Locale.getDefault()).format(it)
+        }
+
+        val adapter = WordAdapter()
+        binding.wordList.apply {
+            this.adapter = adapter
+            layoutManager = LinearLayoutManager(requireContext())
+        }
+        viewModel.wordsFound.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+
+        viewModel.startTimer()
     }
 
     private fun populateBoard(letters: List<Char>) {
