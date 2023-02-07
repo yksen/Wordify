@@ -59,17 +59,10 @@ class GameFragment : Fragment() {
                 when (event.action) {
                     MotionEvent.ACTION_DOWN -> {
                         v.performClick()
-                        (v as Button).setBackgroundColor(activeColor)
-                        inputStarted = true
-                        inputString = v.text.toString()
-                        inputViews = mutableListOf(v)
+                        startInput(v)
                     }
                     MotionEvent.ACTION_UP -> {
-                        inputStarted = false
-                        binding.gameBoardLayout.children.forEach { button ->
-                            (button as Button).setBackgroundColor(baseColor)
-                        }
-                        Log.d("GameFragment", "Input string: $inputString")
+                        endInput()
                     }
                     MotionEvent.ACTION_MOVE -> {
                         val pointerX = event.x + v.left
@@ -78,16 +71,10 @@ class GameFragment : Fragment() {
                             val isUnderPointer =
                                 it.left <= pointerX && pointerX <= it.right && it.top <= pointerY && pointerY <= it.bottom
                             if (isUnderPointer) {
-                                if (inputStarted && !inputViews.contains(it)) {
-                                    if ((it as Button).isAdjacentTo(inputViews.last())) {
-                                        it.setBackgroundColor(activeColor)
-                                        inputString += it.text
-                                        inputViews.add(it)
-                                    }
+                                if (inputStarted && !inputViews.contains(it) && (it as Button).isAdjacentTo(inputViews.last())) {
+                                    addLetter(it)
                                 } else if (inputStarted && inputViews.size > 1 && inputViews[inputViews.size - 2] == it) {
-                                    inputViews.last().setBackgroundColor(baseColor)
-                                    inputString = inputString.dropLast(1)
-                                    inputViews.removeLast()
+                                    undoLastLetter()
                                 }
                             }
                         }
@@ -96,6 +83,33 @@ class GameFragment : Fragment() {
                 true
             }
         }
+    }
+
+    private fun startInput(v: View?) {
+        (v as Button).setBackgroundColor(activeColor)
+        inputStarted = true
+        inputString = v.text.toString()
+        inputViews = mutableListOf(v)
+    }
+
+    private fun endInput() {
+        inputStarted = false
+        binding.gameBoardLayout.children.forEach { button ->
+            (button as Button).setBackgroundColor(baseColor)
+        }
+        Log.d("GameFragment", "Input string: $inputString")
+    }
+
+    private fun addLetter(it: Button) {
+        it.setBackgroundColor(activeColor)
+        inputString += it.text
+        inputViews.add(it)
+    }
+
+    private fun undoLastLetter() {
+        inputViews.last().setBackgroundColor(baseColor)
+        inputString = inputString.dropLast(1)
+        inputViews.removeLast()
     }
 
     private fun Button.isAdjacentTo(other: Button): Boolean {
