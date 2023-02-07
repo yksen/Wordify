@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wordify.R
 import com.example.wordify.databinding.FragmentGameBinding
@@ -52,6 +53,8 @@ class GameFragment : Fragment() {
         populateBoard(('a'..'z').toList())
         setupGameInput()
 
+        viewModel.reset()
+
         viewModel.score.observe(viewLifecycleOwner) {
             binding.scoreText.text = it.toString()
         }
@@ -70,6 +73,12 @@ class GameFragment : Fragment() {
         }
 
         viewModel.startTimer()
+
+        viewModel.gameFinished.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigateUp()
+            }
+        }
     }
 
     private fun populateBoard(letters: List<Char>) {
@@ -127,7 +136,7 @@ class GameFragment : Fragment() {
         }
         delay(500)
         binding.gameBoardLayout.children.forEach { button ->
-            (button as Button).setBackgroundColor(baseColor)
+            button.setBackgroundColor(baseColor)
         }
     }
 

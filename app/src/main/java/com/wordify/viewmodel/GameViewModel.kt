@@ -7,8 +7,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.wordify.model.Profile
 import com.wordify.model.Word
 import com.wordify.repository.WordRepository
+import com.wordify.util.getPlayerProfile
+import com.wordify.util.savePlayerProfile
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -16,11 +19,16 @@ import retrofit2.Response
 class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = WordRepository()
 
+    var playerProfile: Profile = getPlayerProfile(application)
+
     private var countDownTimer: CountDownTimer? = null
-    private val roundTime = 2 * 60 * 1000L
+    private val gameTime = 2 * 60 * 1000L
     private val interval = 1000L
 
-    private val _timeRemaining: MutableLiveData<Long> = MutableLiveData(roundTime)
+    private val _gameFinished: MutableLiveData<Boolean> = MutableLiveData(false)
+    val gameFinished: LiveData<Boolean> = _gameFinished
+
+    private val _timeRemaining: MutableLiveData<Long> = MutableLiveData(gameTime)
     val timeRemaining: LiveData<Long> = _timeRemaining
 
     private val _wordsFound: MutableLiveData<List<String>> = MutableLiveData(listOf())
@@ -63,7 +71,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun startTimer() {
-        countDownTimer = object : CountDownTimer(roundTime, interval) {
+        _gameFinished.value = false
+        countDownTimer = object : CountDownTimer(gameTime, interval) {
             override fun onTick(millisUntilFinished: Long) {
                 _timeRemaining.value = millisUntilFinished
             }
@@ -75,7 +84,24 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }.start()
     }
 
-    fun endGame() {
+    private fun stopTimer() {
+        countDownTimer?.cancel()
+    }
 
+    fun endGame() {
+        playerProfile.points += score.value!!
+        playerProfile.gamesPlayed++
+        playerProfile.wordsFound += wordsFound.value?.size ?: 0
+        savePlayerProfile(getApplication(), playerProfile)
+        _gameFinished.value = true
+    }
+
+    fun reset()
+    {
+        stopTimer()
+        _gameFinished.value = false
+        _timeRemaining.value = gameTime
+        _wordsFound.value = listOf()
+        _score.value = 0
     }
 }

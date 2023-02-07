@@ -1,8 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wordify.view.StatsFragment">
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:textSize="40sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Statistics"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/StatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name" />
+
+        <TextView
+            android:id="@+id/points"
+            style="@style/StatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Points" />
+
+        <TextView
+            android:id="@+id/wordsFound"
+            style="@style/StatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Words found" />
+
+        <TextView
+            android:id="@+id/gamesPlayed"
+            style="@style/StatsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Games played" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
