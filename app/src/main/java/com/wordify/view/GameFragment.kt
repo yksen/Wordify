@@ -49,6 +49,10 @@ class GameFragment : Fragment() {
 
         populateBoard(('a'..'z').toList())
         setupGameInput()
+
+        viewModel.score.observe(viewLifecycleOwner) {
+            binding.scoreText.text = it.toString()
+        }
     }
 
     private fun populateBoard(letters: List<Char>) {
