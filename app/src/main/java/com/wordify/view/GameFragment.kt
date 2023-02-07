@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wordify.R
 import com.example.wordify.databinding.FragmentGameBinding
+import com.wordify.model.randomLetter
 import com.wordify.viewmodel.GameViewModel
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
@@ -50,7 +51,7 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        populateBoard(('a'..'z').toList())
+        populateBoard()
         setupGameInput()
 
         viewModel.reset()
@@ -81,9 +82,9 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun populateBoard(letters: List<Char>) {
+    private fun populateBoard() {
         binding.gameBoardLayout.children.forEach { button ->
-            (button as Button).text = letters.random().toString()
+            (button as Button).text = randomLetter().toString()
         }
     }
 
@@ -134,6 +135,7 @@ class GameFragment : Fragment() {
         } else {
             inputViews.forEach { it.setBackgroundColor(incorrectColor) }
         }
+        binding.wordList.adapter?.let { binding.wordList.layoutManager?.smoothScrollToPosition(binding.wordList, null, it.itemCount) }
         delay(500)
         binding.gameBoardLayout.children.forEach { button ->
             button.setBackgroundColor(baseColor)
