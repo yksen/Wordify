@@ -14,11 +14,15 @@ import androidx.fragment.app.activityViewModels
 import com.example.wordify.R
 import com.example.wordify.databinding.FragmentGameBinding
 import com.wordify.viewmodel.GameViewModel
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 
 class GameFragment : Fragment() {
     private lateinit var binding: FragmentGameBinding
     private val viewModel: GameViewModel by activityViewModels()
+    private val mainScope = MainScope()
 
     private val boardSize = 4
 
@@ -62,7 +66,7 @@ class GameFragment : Fragment() {
                         startInput(v)
                     }
                     MotionEvent.ACTION_UP -> {
-                        endInput()
+                        mainScope.launch { endInput() }
                     }
                     MotionEvent.ACTION_MOVE -> {
                         val pointerX = event.x + v.left
@@ -92,12 +96,18 @@ class GameFragment : Fragment() {
         inputViews = mutableListOf(v)
     }
 
-    private fun endInput() {
+    private suspend fun endInput() {
         inputStarted = false
+        val isValid = viewModel.isValidWord(inputString)
+        if (isValid) {
+            inputViews.forEach { it.setBackgroundColor(correctColor) }
+        } else {
+            inputViews.forEach { it.setBackgroundColor(incorrectColor) }
+        }
+        delay(500)
         binding.gameBoardLayout.children.forEach { button ->
             (button as Button).setBackgroundColor(baseColor)
         }
-        Log.d("GameFragment", "Input string: $inputString")
     }
 
     private fun addLetter(it: Button) {
