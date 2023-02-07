@@ -42,6 +42,12 @@
             android:layout_height="wrap_content"
             android:text="Stats" />
 
+        <Button
+            android:id="@+id/aboutButton"
+            style="@style/MenuButton"
+            android:layout_height="wrap_content"
+            android:text="About" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

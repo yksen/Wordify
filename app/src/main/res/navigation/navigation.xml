@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_menuFragment_to_statsFragment"
             app:destination="@id/statsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/gameFragment"
@@ -25,4 +28,8 @@
         android:name="com.wordify.view.StatsFragment"
         android:label="fragment_stats"
         tools:layout="@layout/fragment_stats" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.wordify.view.AboutFragment"
+        android:label="AboutFragment" />
 </navigation>

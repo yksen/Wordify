@@ -28,6 +28,11 @@ class MenuFragment : Fragment() {
             it.findNavController().navigate(action)
         }
 
+        binding.aboutButton.setOnClickListener {
+            val action = MenuFragmentDirections.actionMenuFragmentToAboutFragment()
+            it.findNavController().navigate(action)
+        }
+
         return binding.root
     }
 }

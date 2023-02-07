@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Wordify</string>
+    <string name="about">The game takes place on a board consisting of 16 squares marked with letters. The player\'s task is to arrange as many at least 3-letter words as possible within the specified time on the board from letters that are touching. The longer the word the player finds, the more points he will be awarded. We select the word by clicking on its first letter, and then by moving around over the subsequent letters and release when the selected word is highlighted.</string>
 </resources>
