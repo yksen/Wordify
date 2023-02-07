@@ -44,6 +44,7 @@
         android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@id/gameBoardLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
