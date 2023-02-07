@@ -19,11 +19,11 @@ import retrofit2.Response
 class GameViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = WordRepository()
 
-    var playerProfile: Profile = getPlayerProfile(application)
-
     private var countDownTimer: CountDownTimer? = null
     private val gameTime = 2 * 60 * 1000L
     private val interval = 1000L
+
+    val playerProfile: Profile = getPlayerProfile(application)
 
     private val _gameFinished: MutableLiveData<Boolean> = MutableLiveData(false)
     val gameFinished: LiveData<Boolean> = _gameFinished
@@ -92,8 +92,12 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         playerProfile.points += score.value!!
         playerProfile.gamesPlayed++
         playerProfile.wordsFound += wordsFound.value?.size ?: 0
-        savePlayerProfile(getApplication(), playerProfile)
+        saveProfile()
         _gameFinished.value = true
+    }
+
+    fun saveProfile() {
+        savePlayerProfile(getApplication(), playerProfile)
     }
 
     fun reset()

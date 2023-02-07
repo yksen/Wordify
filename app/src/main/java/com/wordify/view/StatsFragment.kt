@@ -1,10 +1,12 @@
 package com.wordify.view
 
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.example.wordify.databinding.FragmentStatsBinding
 import com.wordify.viewmodel.GameViewModel
@@ -25,9 +27,16 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.name.text = viewModel.playerProfile.name
+        binding.name.text = Editable.Factory.getInstance().newEditable(viewModel.playerProfile.name)
         binding.points.text = String.format("Points: %d", viewModel.playerProfile.points)
-        binding.wordsFound.text = String.format("Words found: %d", viewModel.playerProfile.wordsFound)
-        binding.gamesPlayed.text = String.format("Games played: %d", viewModel.playerProfile.gamesPlayed)
+        binding.wordsFound.text =
+            String.format("Words found: %d", viewModel.playerProfile.wordsFound)
+        binding.gamesPlayed.text =
+            String.format("Games played: %d", viewModel.playerProfile.gamesPlayed)
+
+        binding.name.addTextChangedListener { text ->
+            viewModel.playerProfile.name = text.toString()
+            viewModel.saveProfile()
+        }
     }
 }
